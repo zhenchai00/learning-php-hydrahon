@@ -5,36 +5,39 @@ include_once(__DIR__ . '/../../app/templates/header.php');
 require_once(__DIR__ . '/../hydrahon.php');
 require_once(__DIR__ . '/../log.php');
 
-use Learning\QueryBuilder;
+use Learning\QueryDataStore;
 use Learning\Logging;
 
 $id = $_POST['employeeid'];
 $firstname = $_POST['updatefirstname'];
 $lastname = $_POST['updatelastname'];
+
+$log = Logging::getInstance();
+
 $date = date("Y-m-d H:i:s");
 
 if (isset($_POST['submit'])) {
-    $builderDb = new QueryBuilder;
+    $builderDb = new QueryDataStore;
 
-    $employee = $builderDb->getBuilder()->table('employee');
+    $employee = $builderDb->getDataTable('employee');
 
     if ("" == $firstname && isset($lastname)) {
         $query = $employee->update(['lastname' => $lastname, 'createdon' => $date])->where('id', $id);
         $query->execute();
         echo '<h3> Successful Update Employee\'s last name</h3>';
-        $logging = new Logging(' Update Employee\'s ID [' . $id . '] with lastname ');
+        $log->writeLog(' Update Employee\'s ID [' . $id . '] with lastname ', $log::INFO);
         
     } elseif (isset($firstname) && "" == $lastname) {
         $query = $employee->update(['firstname' => $firstname, 'createdon' => $date])->where('id', $id);
         $query->execute();
         echo '<h3> Successful Update Employee\'s first name</h3>';
-        $logging = new Logging(' Update Employee\'s ID [' . $id . '] with firstname ');
+        $log->writeLog(' Update Employee\'s ID [' . $id . '] with firstname ', $log::INFO);
         
     } elseif (isset($firstname) && isset($lastname)) {
         $query = $employee->update(['firstname' => $firstname, 'lastname' => $lastname, 'createdon' => $date])->where('id', $id);
         $query->execute();
         echo '<h3> Successful Update Employee\'s first name and last name</h3>';
-        $logging = new Logging(' Update Employee\'s ID [' . $id . '] with firstname and lastname ');
+        $log->writeLog(' Update Employee\'s ID [' . $id . '] with firstname and lastname ', $log::INFO);
     }
 }
 

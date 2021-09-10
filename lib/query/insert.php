@@ -5,18 +5,20 @@ include_once(__DIR__ . '/../../app/templates/header.php');
 require_once(__DIR__ . '/../hydrahon.php');
 require_once(__DIR__ . '/../log.php');
 
-use \Learning\QueryBuilder;
+use \Learning\QueryDataStore;
 use \Learning\Logging;
 
 $firstname = $_POST['firstname'];
 $lastname = $_POST['lastname'];
 
+$log = Logging::getInstance();
+
 if ("" == $firstname && "" == $lastname) {
     echo '<h3>Please insert data on text box</h3>';
 } else {
-    $builderDb = new QueryBuilder;
+    $builderDb = new QueryDataStore;
 
-    $tables = $builderDb->getBuilder()->table('employee');
+    $tables = $builderDb->getDataTable('employee');
     $query = $tables->insert([
         'firstname' => $firstname, 
         'lastname' => $lastname, 
@@ -24,12 +26,10 @@ if ("" == $firstname && "" == $lastname) {
     ]);
     $query->execute();
 
-    $logging = new Logging(' Insert data to Employee Table ');
+    $log->writeLog(' Insert data to Employee Table ', $log::INFO);
 
     echo '<h3>' . $firstname . ' Successful Added </h3>';
-
 }
-
 
 echo '<a href="../../app/index.php"><strong>HOME</strong></a>';
 

@@ -52,7 +52,7 @@
 <p>Please insert the Employee ID you wanted to remove.</p>
 <form action="../lib/query/delete.php" method="post">
     <label for="employeeid">Employee ID: </label>
-    <input type="text" name="employeeid" id="employeeId">
+    <input type="text" name="employeeid" id="employeeid">
     <input type="submit" name="submit" value="Submit">
 </form>
 <!-- End drop rows data -->

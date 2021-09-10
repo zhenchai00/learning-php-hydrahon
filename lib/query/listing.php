@@ -5,7 +5,7 @@ include_once(__DIR__ . '/../../app/templates/header.php');
 require_once(__DIR__ . '/../hydrahon.php');
 require_once(__DIR__ . '/../log.php');
 
-use Learning\QueryBuilder;
+use Learning\QueryDataStore;
 
 echo '<table>
         <thead>
@@ -17,8 +17,8 @@ echo '<table>
             </tr>
         </thead>';
 
-$builderDb = new QueryBuilder;
-$employeeTable = $builderDb->getBuilder()->table('employee');
+$builderDb = new QueryDataStore;
+$employeeTable = $builderDb->getDataTable('employee');
 $query = $employeeTable->select()->execute();
 
 foreach ($query as $value) {

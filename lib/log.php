@@ -1,10 +1,14 @@
 <?php
 namespace Learning;
 
+require_once('app.php');
+
+use Learning\App;
+
 /**
  * The Logging class is to Log the status of the app running 
  */
-class Logging 
+class Logging extends App
 {
     /**
      * String contain the name of the log file
@@ -12,15 +16,11 @@ class Logging
      * @var string
      * @access protected
      */
-    protected $fileName = __DIR__ . '/../myapp.log';
-    
-    /**
-     * String contain the date for the executed time
-     *
-     * @var string
-     * @access protected
-     */
-    protected $date = '';
+    protected $fileHandle;
+
+    const INFO = "INFO";
+    const DEBUG = "DEBUG";
+    const ERROR = "ERROR";
 
     /**
      * This writeFile method is to write the log file with the writeFile() function
@@ -28,13 +28,23 @@ class Logging
      * @param string $text message that will wrote in log file
      * @return mixed
      */
-    public function __construct ($text)
+    protected function __construct ()
     {
-        $this->date = date('Y-m-d H:i:s');
-
-        $fopen = fopen($this->fileName, "a+") ? fopen($this->fileName, "a+") : die('Unable to open file! File does not exist');
-        fwrite($fopen, ("[" . $this->date . "] - " . $text . "\r\n"));
-        fclose($fopen);
+        $this->fileHandle  = fopen( __DIR__ . '/../myapp.log', 'a+');
     }
+
+    public function writeLog (string $text, string $alert) : void
+    {
+        $date = date('Y-m-d H:i:s');
+        fwrite($this->fileHandle, ("[" . $date . "] - [" . $alert . "] - " . $text . "\r\n"));
+        fclose($this->fileHandle);
+    }
+
+    public static function log(string $text) : void
+    {
+        $logger = static::getInstance();
+        $logger->writeLog($text);
+    }
+    
 }
 ?>

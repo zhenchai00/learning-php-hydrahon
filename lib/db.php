@@ -1,7 +1,9 @@
 <?php
 Namespace Learning;
 
-require(__DIR__ . '/../vendor/autoload.php');
+/* define('ROOT_DIR', dirname(__DIR__));
+echo ROOT_DIR; die; */
+include(__DIR__ . '/../vendor/autoload.php');
 
 class Db extends \PDO
 {
@@ -14,7 +16,10 @@ class Db extends \PDO
         try {
             // list($host, $port) = explode(':', $host);
             parent::__construct("$type:host=$host;dbname=$database", $username, $password);
-            // $app = App::getInstance();
+            $app = App::getInstance();
+            if (null != $app) {
+                
+            }
             if ('utf-8' == $defaultCharset) {
                 $defaultCharset = 'utf8';
             }
@@ -24,19 +29,11 @@ class Db extends \PDO
                 // $this->pdoDBHandle->exec('SET NAMES '.$defaultCharset);
             }
             // echo '<br> Db Connected <br>';
-        } catch (PDOException $e) {
-            // if (null != $app) {
-            //     $app->log("Db::connect() - Failed connecting to $type://$username:$password@$host/$database - ".$this->pdoDBHandle->ErrorMsg(), SNAP_LOG_ERROR);
-            // }
-            echo '<br> Db not connected <br>';
+        } catch (\PDOException $e) {
+            throw new \PDOException("Error Processing Request. Db not connected", 1);
             die();
         }
         return $this;
-    }
-
-    public function close()
-    {
-        $this->pdoDBHandle = null;
     }
 }
 ?>
