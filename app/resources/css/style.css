@@ -1,0 +1,18 @@
+body {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+label {
+  display: block;
+  margin: 5px 0;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+td {
+  padding-left: 15px;
+  padding-right: 15px;
+}
