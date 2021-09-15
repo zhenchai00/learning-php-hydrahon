@@ -3,13 +3,13 @@
 require(__DIR__ . '../vendor/autoload.php');
 require 'hydrahon.php';
 
-use Learning\QueryBuilder;
+use Learning\QueryDataStore;
 
 /**
  * Query Table 
  */
-$builderDb = new QueryBuilder;
-$employee = $builderDb->getBuilder()->table('employee');
+$builderDb = new QueryDataStore;
+$employee = $builderDb->getDataTable('employee');
 
 /**
  * Insert data 
