@@ -33,7 +33,7 @@ class Logging extends App
         $this->fileHandle  = fopen( __DIR__ . '/../myapp.log', 'a+');
     }
 
-    public function writeLog (string $text, string $alert) : void
+    public function writeLog (string $text, string $alert)
     {
         $date = date('Y-m-d H:i:s');
         fwrite($this->fileHandle, ("[" . $date . "] - [" . $alert . "] - " . $text . "\r\n"));
