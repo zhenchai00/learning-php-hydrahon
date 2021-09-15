@@ -3,12 +3,12 @@
 require(__DIR__ . '../vendor/autoload.php');
 require 'hydrahon.php';
 
-use Learning\QueryBuilder;
+use Learning\sqlBuilder;
 
 /**
  * Query Table 
  */
-$builderDb = new QueryBuilder;
+$builderDb = new sqlBuilder;
 $employee = $builderDb->getBuilder()->table('employee');
 
 /**
