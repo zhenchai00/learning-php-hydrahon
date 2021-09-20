@@ -1,32 +1,33 @@
 <?php 
 namespace Learning;
 
-/* if (! defined('ROOT_DIR')) {
-    die('ROOT_DIR not defined!');
-}
-if (! defined('APP_DIR')) {
+if (! defined("APP_DIR")) {
     die('APP_DIR not defined!');
 }
-if (! defined('LIB_DIR')) {
+if (! defined("LIB_DIR")) {
     die('LIB_DIR not defined!');
-} */
+}
 
-define('ROOT_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR );
-define('APP_DIR', ROOT_DIR . 'app/');
-define('LIB_DIR', ROOT_DIR . 'lib/');
+require_once(dirname(LIB_DIR) . DIRECTORY_SEPARATOR . 'vendor/autoload.php');
 
-require_once(ROOT_DIR . '/vendor/autoload.php');
+use Learning\query\Listing;
 
 /**
- * This App class is a class for action and other common function 
+ * This App class is a class for action and other common function.
+ * Main singleton application class. This class can be accessed anywhere with 
+ * the call to App::getInstance() method
  */
 class App
 {
     private static $instance = [];
 
-    protected $fileName = __DIR__ . '/../myapp.log';
+    protected $fileHandle;
 
     protected $currentDate = '';
+
+    const INFO = "INFO";
+    const DEBUG = "DEBUG";
+    const ERROR = "ERROR";
 
     protected function __construct()
     {
@@ -65,7 +66,7 @@ class App
      *
      * @return mixed
      */
-    /* protected function dbBuilder () : mixed
+    protected function dbBuilder() : mixed
     {
         $dbConnection = new Db ('mysql', 'localhost', 'root', '', 'learning');
 
@@ -73,51 +74,74 @@ class App
             'mysql',
             function ($query, $queryString, $queryParameters) use ($dbConnection) 
             {
-                $statement = $dbConnection->prepare($queryString);
-                $statement->execute($queryParameters);
-
-                if ($query instanceof \ClanCats\Hydrahon\Query\Sql\FetchableInterface)
-                {
-                    return $statement->fetchAll(\PDO::FETCH_ASSOC);
-                } elseif($query instanceof \ClanCats\Hydrahon\Query\Sql\Insert)
-                {
-                    return $dbConnection->lastInsertId();
-                } else 
-                {
-                    return $statement->rowCount();
+                try {
+                    $statement = $dbConnection->prepare($queryString);
+                    $statement->execute($queryParameters);
+                    if ($query instanceof \ClanCats\Hydrahon\Query\Sql\FetchableInterface) {
+                        return $statement->fetchAll(\PDO::FETCH_ASSOC);
+                    } elseif ($query instanceof \ClanCats\Hydrahon\Query\Sql\Insert)
+                    {
+                        return $dbConnection->lastInsertId();
+                    } else 
+                    {
+                        return $statement->rowCount();
+                    } 
+                } catch (\Exception $e) {
+                    echo 'Exception in DBConnector class';
+                    throw new \Exception('Error executing DB Query', 0, $e);
                 }
             }
-        );   
-    } */
+        );
+        return $build;
+    }
 
     /**
      * This getDataTable is used method dbBuilder() to query out the table
      *
-     * @param string $table Database Table 
-     * @return void
+     * @param  string  $table    Database Table 
+     * @param  string  $table    Database Table 
+     * @return mixed
      */
-    /* protected function getDataTable($table) 
+    public function getDataTable(string $table) : mixed
     {
         return $this->dbBuilder()->table($table);
-    } */
+    }
 
     /**
-     * This logging() is to log down the current action and other state
+     * Initialize Log file 
      *
-     * @param string $text
-     * @param string $alert
      * @return void
      */
-    /* protected function logging ( string $alert, string $text) : void
+    public function initLog() : void
     {
-        $this->date = date('Y-m-d H:i:s');
+        $this->fileHandle = fopen(dirname(LIB_DIR) . DIRECTORY_SEPARATOR . 'myapp.log', 'a+');
+    }
 
-        $fopen = fopen($this->fileName, 'a+') or die('Unable to open File! File does not exist');
-        fwrite($fopen, ("[" . $this->date . "] - [" . $alert . "] - ". $text . "\r\n"));
-        fclose($fopen);
-    } */
+    /**
+     * Write and close the Log file
+     *
+     * @param string $text Message to log 
+     * @param string $alert Message type
+     * @return void
+     */
+    public function writeLog(string $text, string $alert) : void
+    {
+        $this->initLog();
+        $date = date('Y-m-d H:i:s');
+        fwrite($this->fileHandle, ("[" . $date . "] - [" . $alert . "] - " . $text . "\r\n"));
+        fclose($this->fileHandle);
+    }
 
-
+    /**
+     * This is to get listing and show at brain.php 
+     *
+     * @return mixed
+     */
+    public function getList() : mixed
+    {
+        $list =  new Listing();
+        return $list->getListing();
+    }
 }
 
 ?>

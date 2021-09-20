@@ -1,37 +1,47 @@
 <?php
-namespace Learning;
+namespace Learning\query;
 
-include_once(__DIR__ . '/../../app/templates/header.php');
-require_once(__DIR__ . '/../hydrahon.php');
-require_once(__DIR__ . '/../log.php');
+use \Learning\App;
 
-use \Learning\QueryDataStore;
-use \Learning\Logging;
+class InsertListing
+{
+    /**
+     * This variable is App object
+     *
+     * @var object
+     */
+    protected $app;
 
-$firstname = $_POST['firstname'];
-$lastname = $_POST['lastname'];
+    public function __construct()
+    {
+        $this->app = \Learning\App::getInstance();
+    }
 
-$log = Logging::getInstance();
+    public function setTable()
+    {
+        return $this->app->getDataTable('employee');
+    }
 
-if ("" == $firstname && "" == $lastname) {
-    echo '<h3>Please insert data on text box</h3>';
-} else {
-    $builderDb = new QueryDataStore;
+    public function insertListing($firstname, $lastname)
+    {
+        if ($firstname == '' && $lastname == '') {
+            return '<h3>Please insert employee name!</h3><br>
+            <a href=\'../index.php#create\'>Retry</a><br>
+            <a href=\'../index.php\'><strong>HOME</strong></a>';
+        }
 
-    $tables = $builderDb->getDataTable('employee');
-    $query = $tables->insert([
-        'firstname' => $firstname, 
-        'lastname' => $lastname, 
-        'createdon' => date("Y-m-d H:i:s")
-    ]);
-    $query->execute();
+        $query = $this->setTable()->insert([
+            'firstname' => $firstname,
+            'lastname' => $lastname,
+            'createdon' => date("Y-m-d H:i:s"),
+        ]);
+        $query->execute();
 
-    $log->writeLog(' Insert data to Employee Table ', $log::INFO);
+        $this->app->writeLog('Insert Data to Employee Table ', $this->app::INFO);
 
-    echo '<h3>' . $firstname . ' Successful Added </h3>';
+        return '<h3>' . $firstname . ' successful added!</h3><br>
+        <a href=\'../index.php#create\'>Create Another Employee</a><br>
+        <a href=\'../index.php\'><strong>HOME</strong></a>';
+    }
 }
-
-echo '<a href="../../app/index.php"><strong>HOME</strong></a>';
-
-include '../../app/templates/footer.php';
 ?>

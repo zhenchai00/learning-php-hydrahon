@@ -1,39 +1,63 @@
 <?php
-namespace Learning;
+namespace Learning\query;
 
-include_once(__DIR__ . '/../../app/templates/header.php');
-require_once(__DIR__ . '/../hydrahon.php');
-require_once(__DIR__ . '/../log.php');
+class Listing 
+{
+    /**
+     * This variable is App object
+     *
+     * @var object
+     */
+    public $app;
 
-use Learning\QueryDataStore;
+    public function __construct()
+    {
+        $this->app = \Learning\App::getInstance();
+    }
 
-echo '<table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Created On</th>
-            </tr>
-        </thead>';
+    /**
+     * This method is to set Table and return executed data
+     *
+     * @return mixed
+     */
+    public function setListing() : mixed
+    {
+        $employeeTable = $this->app->getDataTable('employee');
+        return $employeeTable->select()->execute();
+    }
 
-$builderDb = new QueryDataStore;
-$employeeTable = $builderDb->getDataTable('employee');
-$query = $employeeTable->select()->execute();
-
-foreach ($query as $value) {
-    echo '<tbody>
-            <tr>
-                <td>' . $value['id'] . '</td>
-                <td>' . $value['firstname'] . '</td>
-                <td>' . $value['lastname'] . '</td>
-                <td>' . $value['createdon'] . '</td>
-            </tr>
-        </tbody>';
+    /**
+     * This method is to get listing by using the setLising() method
+     *
+     * @return string
+     */
+    public function getListing() : string
+    {
+        $html = '<a href="index.php"><strong>HOME</strong></a><br><br>';
+        $html .= '<table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Created On</th>
+                        </tr>
+                    </thead>';
+        
+        $list = $this->setListing();
+        foreach ($list as $value) {
+            $html .= '<tbody>
+                        <tr>
+                            <td>' . $value['id'] . '</td>
+                            <td>' . $value['firstname'] . '</td>
+                            <td>' . $value['lastname'] . '</td>
+                            <td>' . $value['createdon'] . '</td>
+                        </tr>
+                    </tbody>';
+        }
+        
+        return $html;
+    }
 }
 
-
-echo '<a href="../../app/index.php"><strong>HOME</strong></a><br><br>';
-
-include '../../app/templates/footer.php';
 ?>

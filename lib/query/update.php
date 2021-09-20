@@ -1,46 +1,74 @@
 <?php
-namespace Learning;
+namespace Learning\query;
 
-include_once(__DIR__ . '/../../app/templates/header.php');
-require_once(__DIR__ . '/../hydrahon.php');
-require_once(__DIR__ . '/../log.php');
+use \Learning\App;
 
-use Learning\QueryDataStore;
-use Learning\Logging;
+class UpdateListing
+{
+    public $app;
 
-$id = $_POST['employeeid'];
-$firstname = $_POST['updatefirstname'];
-$lastname = $_POST['updatelastname'];
+    public function __construct()
+    {
+        $this->app = \Learning\App::getInstance();
+        // $this->app->getDataTable('employee');
+        // $this->log = Logging::getInstance();
+        // $this->builderDb = new QueryDataStore;
+    }
 
-$log = Logging::getInstance();
+    public function setTable()
+    {
+        return $this->app->getDataTable('employee');
+    }
 
-$date = date("Y-m-d H:i:s");
+    public function updateListing($id, $firstname, $lastname)
+    {
+        $date = date("Y-m-d H:i:s");
 
-if (isset($_POST['submit'])) {
-    $builderDb = new QueryDataStore;
+        if ($firstname == '' && $lastname == '') {
+            return '<h3>Please insert employee name!</h3><br>
+            <a href=\'../index.php#update\'>Retry</a><br>
+            <a href=\'../index.php\'><strong>HOME</strong></a>';
 
-    $employee = $builderDb->getDataTable('employee');
+        } elseif ($firstname == '' && isset($lastname)) {
+            $query = $this->setTable()->update([
+                'lastname' => $lastname,
+                'createdon' => $date
+            ])->where('id', $id);
+            $query->execute();
 
-    if ("" == $firstname && isset($lastname)) {
-        $query = $employee->update(['lastname' => $lastname, 'createdon' => $date])->where('id', $id);
-        $query->execute();
-        echo '<h3> Successful Update Employee\'s last name</h3>';
-        $log->writeLog(' Update Employee\'s ID [' . $id . '] with lastname ', $log::INFO);
-        
-    } elseif (isset($firstname) && "" == $lastname) {
-        $query = $employee->update(['firstname' => $firstname, 'createdon' => $date])->where('id', $id);
-        $query->execute();
-        echo '<h3> Successful Update Employee\'s first name</h3>';
-        $log->writeLog(' Update Employee\'s ID [' . $id . '] with firstname ', $log::INFO);
-        
-    } elseif (isset($firstname) && isset($lastname)) {
-        $query = $employee->update(['firstname' => $firstname, 'lastname' => $lastname, 'createdon' => $date])->where('id', $id);
-        $query->execute();
-        echo '<h3> Successful Update Employee\'s first name and last name</h3>';
-        $log->writeLog(' Update Employee\'s ID [' . $id . '] with firstname and lastname ', $log::INFO);
+            $this->app->writeLog('Update Employee\'s ID [' . $id . '] with lastname ', $this->app::INFO);
+
+            return '<h3> Successful Update Employee\'s last name</h3><br>
+            <a href=\'../index.php#update\'>Update Another Employee</a><br>
+            <a href=\'../index.php\'><strong>HOME</strong></a>';
+
+        } elseif (isset($firstname) && $lastname == '') {
+            $query = $this->setTable()->update([
+                'firstname' => $firstname,
+                'createdon' => $date
+            ])->where('id', $id);
+            $query->execute();
+
+            $this->app->writeLog('Update Employee\'s ID [' . $id . '] with firstname ', $this->app::INFO);
+
+            return '<h3> Successful Update Employee\'s first name</h3><br>
+            <a href=\'../index.php#update\'>Update Another Employee</a><br>
+            <a href=\'../index.php\'><strong>HOME</strong></a>';
+
+        } elseif (isset($firstname) && isset($lastname)) {
+            $query = $this->setTable()->update([
+                'firstname' => $firstname,
+                'lastname' => $lastname,
+                'createdon' => $date
+            ])->where('id', $id);
+            $query->execute();
+
+            $this->app->writeLog('Update Employee\'s ID [' . $id . '] with firstname and lastname ', $this->app::INFO);
+
+            return '<h3> Successful Update Employee\'s first name and last name</h3><br>
+            <a href=\'../index.php#update\'>Update Another Employee</a><br>
+            <a href=\'../index.php\'><strong>HOME</strong></a>';
+        }
     }
 }
-
-echo '<a href="../../app/index.php"><strong>HOME</strong></a>';
-include '../../app/templates/footer.php';
 ?>

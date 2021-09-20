@@ -1,60 +1,36 @@
-<?php include 'templates/header.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-<!-- List employee table -->
-<h2>READ</h2>
-<h3>List New Employee</h3>
-<a href="../lib/query/listing.php">View data Listing</a>
-<!-- End list data -->
+    <!-- CSS -->
+    <link rel="stylesheet" href="resources/bootstrap5.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="resources/css/style.css">
 
-<br>
+    <!-- JS -->
+    <script type="text/javascript" src="resources/js/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+</head>
 
-<!-- Insert new row of data -->
-<h2>CREATE</h2>
-<h3>Add Employee</h3>
-<p>Please insert the new Employee first name and last name.</p>
-<form action="../lib/query/insert.php" method="post">
-    <label for="firstname">First Name: </label>
-    <input type="text" name="firstname" id="firstname">
-    <label for="lastname">Last Name: </label>
-    <input type="text" name="lastname" id="lastname">
+<body>
+    <h1>Learning</h1>
+    <a href="#list">Listing Employee</a>
     <br>
-    <input type="submit" name="submit" value="Submit">
-</form>
-<!-- End insert new row  -->
-
-<br>
-
-<!-- Update rows data with condition -->
-<h2>UPDATE</h2>
-<h3>Update Employee</h3>
-<p>
-    Please insert the Employee ID you wanted to update.<br>
-    If only need to update first name, please insert at text box label first name.<br>
-    Last name can be left it blank.
-</p>
-<form action="../lib/query/update.php" method="post">
-    <label for="employeeid">Employee ID: </label>
-    <input type="text" name="employeeid" id="employeeId">
-    <label for="updatefirstname">First Name: </label>
-    <input type="text" name="updatefirstname" id="updatefirstname">
-    <label for="updatelastname">Last Name: </label>
-    <input type="text" name="updatelastname" id="updatelastname">
+    <a href="#create">Create Employee</a>
     <br>
-    <input type="submit" name="submit" value="Submit">
-</form>
-<!-- End update rows data -->
+    <a href="#update">Update Employee</a>
+    <br>
+    <a href="#delete">Delete Employee</a>
+    <br>
+    <br>
+    <div id="content"></div>
+</body>
 
-<br>
+</html>
 
-<!-- Drop rows data with condition -->
-<h2>DELETE</h2>
-<h3>Delete Employee</h3>
-<p>Please insert the Employee ID you wanted to remove.</p>
-<form action="../lib/query/delete.php" method="post">
-    <label for="employeeid">Employee ID: </label>
-    <input type="text" name="employeeid" id="employeeid">
-    <input type="submit" name="submit" value="Submit">
-</form>
-<!-- End drop rows data -->
-
-<?php include 'templates/footer.php' ?>
+<?php
+    require_once('brain.php');
+?>

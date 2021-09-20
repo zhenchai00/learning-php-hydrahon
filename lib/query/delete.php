@@ -1,31 +1,38 @@
 <?php
-namespace Learning;
+namespace Learning\query;
 
+use \Learning\App;
 
-include_once(__DIR__ . '/../../app/templates/header.php');
-require_once(__DIR__ . '/../hydrahon.php');
-require_once(__DIR__ . '/../log.php');
+class DeleteListing
+{
+    protected $app;
 
-use \Learning\QueryDataStore;
-use \Learning\Logging;
+    public function __construct()
+    {
+        $this->app = \Learning\App::getInstance();
+    }
 
-$log = Logging::getInstance();
+    public function setTable()
+    {
+        return $this->app->getDataTable('employee');
+    }
 
-$id = $_POST['employeeid'];
-if ("" == $id) {
-    echo '<h3>Please insert data on text box</h3>';
-} else {
+    public function deleteListing($id) 
+    {
+        if ("" == $id) {
+            return 'h3>Please insert data on text box</h3><br>
+            <a href=\'../index.php#delete\'>Retry</a><br>
+            <a href=\'../index.php\'><strong>HOME</strong></a>';
+        }
+        
+        $query = $this->setTable()->delete()->where('id', $id);
+        $query->execute();
 
-    $builderDb = new QueryDataStore;
-    $employee = $builderDb->getDataTable('employee');
-    $query = $employee->delete()->where('id', $id);
-    $query->execute();
-
-    $log->writeLog('Deleted Employee ID [' . $id . ']', $log::INFO);
-    echo '<h3> Employee ID [' . $id . '] Successful Removed </h3>';    
+        $this->app->writeLog('Deleted Employee ID [' . $id . ']', $this->app::INFO);
+        
+        return '<h3> Employee ID [' . $id . '] Successful Removed </h3><br>
+        <a href=\'../index.php#delete\'>Delete Another Employee</a><br> 
+        <a href=\'../index.php\'><strong>HOME</strong></a>';
+    }
 }
-
-echo '<a href="../../app/index.php"><strong>HOME</strong></a>';
-
-include '../../app/templates/footer.php';
 ?>
