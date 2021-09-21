@@ -47,6 +47,7 @@ class CRUDListing
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Created On</th>
+                            <th>Modified On</th>
                         </tr>
                     </thead>';
         
@@ -58,6 +59,7 @@ class CRUDListing
                             <td>' . $value['firstname'] . '</td>
                             <td>' . $value['lastname'] . '</td>
                             <td>' . $value['createdon'] . '</td>
+                            <td>' . $value['modifiedon'] . '</td>
                         </tr>
                     </tbody>';
         }
@@ -85,6 +87,7 @@ class CRUDListing
             'firstname' => $firstname,
             'lastname' => $lastname,
             'createdon' => $this->date,
+            'modifiedon' => $this->date,
         ]);
         $query->execute();
 
@@ -114,7 +117,7 @@ class CRUDListing
         } elseif ($firstname == '' && isset($lastname)) {
             $query = $this->getTable()->update([
                 'lastname' => $lastname,
-                'createdon' => $this->date
+                'modifiedon' => $this->date
             ])->where('id', $id);
             $query->execute();
 
@@ -127,7 +130,7 @@ class CRUDListing
         } elseif (isset($firstname) && $lastname == '') {
             $query = $this->getTable()->update([
                 'firstname' => $firstname,
-                'createdon' => $this->date
+                'modifiedon' => $this->date
             ])->where('id', $id);
             $query->execute();
 
@@ -141,7 +144,7 @@ class CRUDListing
             $query = $this->getTable()->update([
                 'firstname' => $firstname,
                 'lastname' => $lastname,
-                'createdon' => $this->date
+                'modifiedon' => $this->date
             ])->where('id', $id);
             $query->execute();
 
