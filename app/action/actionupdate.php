@@ -12,4 +12,5 @@ $lastname = $_POST['updatelastname'];
 $update = new UpdateListing();
 
 echo $update->updateListing($id, $firstname, $lastname);
+echo $app->getList();
 ?>
