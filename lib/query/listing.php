@@ -33,8 +33,7 @@ class Listing
      */
     public function getListing() : string
     {
-        $html = '<a href="index.php"><strong>HOME</strong></a><br><br>';
-        $html .= '<table>
+        $html = '<table>
                     <thead>
                         <tr>
                             <th>ID</th>

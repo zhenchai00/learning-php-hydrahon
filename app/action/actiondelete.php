@@ -10,4 +10,5 @@ $id = $_POST['employeeid'];
 $delete = new DeleteListing();
 
 echo $delete->deleteListing($id);
+echo $app->getList();
 ?>

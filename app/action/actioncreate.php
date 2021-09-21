@@ -12,4 +12,5 @@ $lastname = $_POST['lastname'];
 $insert = new InsertListing();
 
 echo $insert->insertListing($firstname, $lastname);
+echo $app->getList();
 ?>
