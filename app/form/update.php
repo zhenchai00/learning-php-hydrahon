@@ -5,13 +5,34 @@
     If only need to update first name, please insert at text box label first name.<br>
     Last name can be left it blank.
 </p>
-<form action="action/actionupdate.php" method="post">
+<form id="updateform" method="post">
     <label for="employeeid">Employee ID: </label>
     <input type="text" name="employeeid" id="employeeId">
-    <label for="updatefirstname">First Name: </label>
-    <input type="text" name="updatefirstname" id="updatefirstname">
-    <label for="updatelastname">Last Name: </label>
-    <input type="text" name="updatelastname" id="updatelastname">
+    <label for="firstname">First Name: </label>
+    <input type="text" name="firstname" id="firstname">
+    <label for="lastname">Last Name: </label>
+    <input type="text" name="lastname" id="lastname">
     <br>
     <input class="btn btn-primary mb-3" type="submit" name="submit" value="Submit">
 </form>
+
+<script>
+    $(document).ready(function() {
+        $('#updateform').submit(function(event) {
+            event.preventDefault();
+
+            var id = $('#employeeId').val();
+            var firstname = $('#firstname').val();
+            var lastname = $('#lastname').val();
+
+            $.post('../lib/action.php', {
+                action: 'update',
+                id: id,
+                firstname: firstname,
+                lastname: lastname
+            }, function(data, status, xhr) {
+                $('#content').html(data.message + data.list);
+            }, 'json');
+        })
+    });
+</script>

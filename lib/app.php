@@ -9,8 +9,9 @@ if (! defined("LIB_DIR")) {
 }
 
 require_once(dirname(LIB_DIR) . DIRECTORY_SEPARATOR . 'vendor/autoload.php');
+require_once(LIB_DIR . 'CRUD.php');
 
-use Learning\query\Listing;
+use Learning\CRUDListing;
 
 /**
  * This App class is a class for action and other common function.
@@ -139,7 +140,7 @@ class App
      */
     public function getList() : mixed
     {
-        $list =  new Listing();
+        $list =  new CRUDListing();
         return $list->getListing();
     }
 }
