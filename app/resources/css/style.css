@@ -4,6 +4,16 @@ body {
   padding-right: 15px;
 }
 
+.container {
+  padding-top: 15px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.navbar-brand {
+  font-size: x-large;
+}
+
 label {
   display: block;
   margin: 5px 0;

@@ -16,17 +16,31 @@
 </head>
 
 <body>
-    <h1>Learning</h1>
-    <a href="#list">Listing Employee</a>
-    <br>
-    <a href="#create">Create Employee</a>
-    <br>
-    <a href="#update">Update Employee</a>
-    <br>
-    <a href="#delete">Delete Employee</a>
-    <br>
-    <br>
-    <div id="content"></div>
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#list">Learning</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <!-- <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#list">Home</a>
+                    </li> -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#list">Listing Employee</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#create">Create Employee</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#update">Update Employee</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#delete">Delete Employee</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container" id="content"></div>
 </body>
 
 </html>
