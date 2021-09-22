@@ -101,13 +101,13 @@ class CRUDListing
     /**
      * This method will update the an exiting record 
      *
-     * @param   integer  $id            Existing record's id
+     * @param   string  $id            Existing record's id
      * @param   string   $firstname     Value should be updated for first name 
      * @param   string   $lastname      Value should be updated for last name 
      * 
      * @return  string  Result after updated an exiting record
      */
-    public function updateListing(int $id, string $firstname, string $lastname) : string
+    public function updateListing(string $id, string $firstname, string $lastname) : string
     {
         if ($firstname == '' && $lastname == '') {
             return '<h3>Please insert employee name!</h3><br>
@@ -159,11 +159,11 @@ class CRUDListing
     /**
      * This method is the delete or drop the existing record
      *
-     * @param    integer     $id    Existing record's id that wanted to delete
+     * @param    string     $id    Existing record's id that wanted to delete
      * 
      * @return   string     Result after deleted existing record
      */
-    public function deleteListing(int $id) : string
+    public function deleteListing(string $id) : string
     {
         if ("" == $id) {
             return '<h3>Please insert data on text box</h3><br>
