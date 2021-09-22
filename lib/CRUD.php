@@ -1,6 +1,9 @@
 <?php
 namespace Learning;
 
+use DateTime;
+use DateTimeZone;
+
 class CRUDListing
 {
     /**
@@ -55,15 +58,14 @@ class CRUDListing
         foreach ($list as $value) {
             $html .= '<tbody>
                         <tr>
-                            <td>' . $value['id'] . '</td>
-                            <td>' . $value['firstname'] . '</td>
-                            <td>' . $value['lastname'] . '</td>
-                            <td>' . $value['createdon'] . '</td>
-                            <td>' . $value['modifiedon'] . '</td>
+                            <td>' . $value['emp_id'] . '</td>
+                            <td>' . $value['emp_firstname'] . '</td>
+                            <td>' . $value['emp_lastname'] . '</td>
+                            <td>' . $this->app->dateTimeConvertToAsiaKL($value['emp_createdon']) . '</td>
+                            <td>' . $this->app->dateTimeConvertToAsiaKL($value['emp_modifiedon']) . '</td>
                         </tr>
                     </tbody>';
         }
-        
         return $html;
     }
 
@@ -84,10 +86,10 @@ class CRUDListing
         }
 
         $query = $this->getTable()->insert([
-            'firstname' => $firstname,
-            'lastname' => $lastname,
-            'createdon' => $this->date,
-            'modifiedon' => $this->date,
+            'emp_firstname' => $firstname,
+            'emp_lastname' => $lastname,
+            'emp_createdon' => $this->date,
+            'emp_modifiedon' => $this->date,
         ]);
         $query->execute();
 
@@ -116,9 +118,9 @@ class CRUDListing
 
         } elseif ($firstname == '' && isset($lastname)) {
             $query = $this->getTable()->update([
-                'lastname' => $lastname,
-                'modifiedon' => $this->date
-            ])->where('id', $id);
+                'emp_lastname' => $lastname,
+                'emp_modifiedon' => $this->date
+            ])->where('emp_id', $id);
             $query->execute();
 
             $this->app->writeLog('Update Employee\'s ID [' . $id . '] with lastname ', $this->app::INFO);
@@ -129,9 +131,9 @@ class CRUDListing
 
         } elseif (isset($firstname) && $lastname == '') {
             $query = $this->getTable()->update([
-                'firstname' => $firstname,
-                'modifiedon' => $this->date
-            ])->where('id', $id);
+                'emp_firstname' => $firstname,
+                'emp_modifiedon' => $this->date
+            ])->where('emp_id', $id);
             $query->execute();
 
             $this->app->writeLog('Update Employee\'s ID [' . $id . '] with firstname ', $this->app::INFO);
@@ -142,10 +144,10 @@ class CRUDListing
 
         } elseif (isset($firstname) && isset($lastname)) {
             $query = $this->getTable()->update([
-                'firstname' => $firstname,
-                'lastname' => $lastname,
-                'modifiedon' => $this->date
-            ])->where('id', $id);
+                'emp_firstname' => $firstname,
+                'emp_lastname' => $lastname,
+                'emp_modifiedon' => $this->date
+            ])->where('emp_id', $id);
             $query->execute();
 
             $this->app->writeLog('Update Employee\'s ID [' . $id . '] with firstname and lastname ', $this->app::INFO);
@@ -171,7 +173,7 @@ class CRUDListing
             <a href=\'index.php\'><strong>HOME</strong></a>';
         }
         
-        $query = $this->getTable()->delete()->where('id', $id);
+        $query = $this->getTable()->delete()->where('emp_id', $id);
         $query->execute();
 
         $this->app->writeLog('Deleted Employee ID [' . $id . ']', $this->app::INFO);

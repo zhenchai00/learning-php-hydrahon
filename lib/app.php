@@ -24,8 +24,6 @@ class App
 
     protected $fileHandle;
 
-    protected $currentDate = '';
-
     const INFO = "INFO";
     const DEBUG = "DEBUG";
     const ERROR = "ERROR";
@@ -57,6 +55,51 @@ class App
             self::$instance[$subclass] = new static();
         }
         return self::$instance[$subclass];
+    }
+
+    /**
+     * This method is to set the system timezone 
+     *
+     * @param string $timezone Predefined timezone form 
+     * https://www.php.net/manual/en/timezones.php
+     * 
+     * @return mixed
+     */
+    public function setTimeZone(string $timezone) : mixed
+    {
+        if ((! $timezone instanceof \DateTimeZone) && 0 <= strlen($timezone)) {
+            $timezone = str_replace(' ', '_', $timezone);
+            if (0 == strlen($timezone)) {
+                $timezone = date_default_timezone_get();
+            }
+            try {
+                $timezone = new \DateTimeZone($timezone);
+            } catch (\Exception $e) {
+                $this->writeLog('There is an error in timezone value"' . $timezone . '" - ' . $e->getMessage(), $this::ERROR);
+                return false;
+            }
+        }
+        if ($timezone instanceof \DateTimeZone) {
+            date_default_timezone_set($timezone->getName());
+            $this->writeLog('Timezone now set to ' . $timezone->getName(), $this::INFO);
+            return true;
+        }
+        $this->writeLog('Failed setting timezone for ' . $timezone, $this::ERROR);
+        return false;
+    }
+
+    /**
+     * This method is to convert UTC datetime to Asia Kuala Lumpur datetime
+     *
+     * @param string $datetime Value to be converted
+     * 
+     * @return mixed
+     */
+    public function dateTimeConvertToAsiaKL(string $datetime) : mixed
+    {
+        $date = new \DateTime($datetime);
+        $date->setTimezone(new \DateTimeZone('Asia/Kuala_Lumpur'));
+        return $date->format('Y-m-d H:i:s');
     }
 
     /**
@@ -113,7 +156,7 @@ class App
      *
      * @return void
      */
-    public function initLog() : void
+    protected function initLog() : void
     {
         $this->fileHandle = fopen(dirname(LIB_DIR) . DIRECTORY_SEPARATOR . 'myapp.log', 'a+');
     }
