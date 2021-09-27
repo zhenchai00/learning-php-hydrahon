@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="resources/css/style.css">
 
     <!-- JS -->
+    <script type="text/javascript" src="resources/bootstrap5.0.2/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="resources/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="main.js"></script>
 </head>
@@ -21,26 +22,53 @@
             <a class="navbar-brand" href="#list">Learning</a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <!-- <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#list">Home</a>
-                    </li> -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="#list">Listing Employee</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navListing" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Listing
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navListing">
+                            <li class="dropdown-item"><a href="?page=employee&aot=list#list">Listing Employee</a></li>
+                            <li class="dropdown-item"><a href="?page=department&aot=list#list">Listing Department</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#create">Create Employee</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navCreate" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Create
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navCreate">
+                            <li class="dropdown-item"><a href="?page=employee&aot=create#create">Create Employee</a></li>
+                            <li class="dropdown-item"><a href="?page=department&aot=create#create">Create Department</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#update">Update Employee</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navUpdate" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Update
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navUpdate">
+                            <li class="dropdown-item"><a href="?page=employee&aot=update#update">Update Employee</a></li>
+                            <li class="dropdown-item"><a href="?page=department&aot=update#update">Update Department</a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#delete">Delete Employee</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navDelete" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Delete
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navDelete">
+                            <li class="dropdown-item"><a href="?page=employee&aot=delete#delete">Delete Employee</a></li>
+                            <li class="dropdown-item"><a href="?page=department&aot=delete#delete">Delete Department</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
     <div class="container" id="content"></div>
+
+    <script type="text/javascript">
+        var page = '<?php echo $_GET["page"];?>';
+        var aot = '<?php echo $_GET["aot"]; ?>'
+    </script>
+
 </body>
 
 </html>
