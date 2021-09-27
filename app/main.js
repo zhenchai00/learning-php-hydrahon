@@ -1,7 +1,8 @@
 // Load content dynamically to div, while window on load
 window.onload = function(event) {
     var hash = location.hash.substr(1);
-    $('#content').load('form/' + hash + '.php');
+    $('#content').load('form/' + hash + '/' + page + '_' + aot + '.php?page=' + page + '&aot=' + aot);
+    console.log('form/' + hash + '/' + page + '_' + aot + '.php?page=' + page + '&aot=' + aot);
 };
 
 // Make hash default while it is empty

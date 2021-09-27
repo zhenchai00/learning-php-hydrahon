@@ -15,6 +15,8 @@
             var id = $('#employeeid').val();
 
             $.post('../lib/action.php', {
+                page: page,
+                aot: aot,
                 action: 'delete',
                 id: id
             }, function(data, status, xhr) {

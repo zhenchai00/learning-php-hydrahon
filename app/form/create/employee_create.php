@@ -19,6 +19,8 @@
             var lastname = $('#lastname').val();
 
             $.post('../lib/action.php', {
+                page: page,
+                aot: aot,
                 action: 'create',
                 firstname: firstname,
                 lastname: lastname

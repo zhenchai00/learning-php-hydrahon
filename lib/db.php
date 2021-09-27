@@ -18,22 +18,26 @@ class Db extends \PDO
             parent::__construct("$type:host=$host;dbname=$database", $username, $password);
             $app = App::getInstance();
             if (null != $app) {
-                
+                $app->writeLog("Db::connect() - Connected to $host ($database)", $app::DEBUG);
             }
             if ('utf-8' == $defaultCharset) {
                 $defaultCharset = 'utf8';
             }
             $defaultCharset = preg_replace('/[^-a-z0-9_]/i', '', $defaultCharset);
             if (0 < strlen($defaultCharset)) {
-                // $app->log('Setting database charset to "'.$defaultCharset.'"...', SNAP_LOG_DEBUG);
+                $app->writeLog('Setting database charset to "' . $defaultCharset . '"...', $app::DEBUG);
                 // $this->pdoDBHandle->exec('SET NAMES '.$defaultCharset);
             }
-            // echo '<br> Db Connected <br>';
         } catch (\PDOException $e) {
             throw new \PDOException("Error Processing Request. Db not connected", 1);
             die();
         }
         return $this;
+    }
+
+    public function close()
+    {
+        $this->pdoDBHandle = null;
     }
 }
 ?>

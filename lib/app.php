@@ -10,8 +10,13 @@ if (! defined("LIB_DIR")) {
 
 require_once(dirname(LIB_DIR) . DIRECTORY_SEPARATOR . 'vendor/autoload.php');
 require_once(LIB_DIR . 'CRUD.php');
+require_once(LIB_DIR . 'handler/main.php');
 
+use Learning\Db;
 use Learning\CRUDListing;
+use ClanCats\Hydrahon\{Builder, BaseQuery};
+use ClanCats\Hydrahon\Query\{Sql, Expression};
+use ClanCats\Hydrahon\Query\Sql\{Select, Exists, Func};
 
 /**
  * This App class is a class for action and other common function.
@@ -20,17 +25,27 @@ use Learning\CRUDListing;
  */
 class App
 {
-    private static $instance = [];
-
-    protected $fileHandle;
-
+    /**
+     * Constants for Logging Type
+     */
     const INFO = "INFO";
     const DEBUG = "DEBUG";
     const ERROR = "ERROR";
 
+    private static $instance = [];
+
+    protected $fileHandle;
+
+    protected $dbHandle;
+
+    private $page = '';
+
+    private $aot = '';
+
     protected function __construct()
     {
-        
+        $this->page = $_REQUEST['page'];
+        $this->aot = $_REQUEST['aot'];
     }
 
     protected function __clone()
@@ -55,6 +70,35 @@ class App
             self::$instance[$subclass] = new static();
         }
         return self::$instance[$subclass];
+    }
+
+    /**
+     * This method is to initialize database connection
+     *
+     * @return mixed
+     */
+    public function initSystemDB() : mixed
+    {
+        try {
+            $this->dbHandle = new Db('mysql', 'localhost', 'root', '', 'learning');
+            if (null == $this->dbHandle) {
+                throw new \Exception("mysql://root@localhost/learning error connection", 1);            
+            }
+        } catch (\PDOException $e) {
+            $this->writeLog('Error Connecting to DB - mysql://root@localhost/learning', $this::ERROR);
+            throw new \Exception("Error connecting to database mysql://root@localhost/learning" . __FILE__ . __METHOD__ . __LINE__, 1);
+        }
+        return true;
+    }
+
+    /**
+     * This method is to get database handler where have connected to database
+     *
+     * @return void
+     */
+    public function getDBHandle() : object | string
+    {
+        return $this->dbHandle;
     }
 
     /**
@@ -103,18 +147,18 @@ class App
     }
 
     /**
-     * This dbBuilder() is used Hydrahon to create new sql query builder and get the table and other column 
+     * This method used Hydrahon to create new sql query builder and get the table and other column 
      * of data in database 
      * 
      * https://github.com/ClanCats/Hydrahon
      *
      * @return mixed
      */
-    protected function dbBuilder() : mixed
+    protected function queryBuilder() : mixed
     {
         $dbConnection = new Db ('mysql', 'localhost', 'root', '', 'learning');
 
-        $build = new \ClanCats\Hydrahon\Builder (
+        $build = new Builder (
             'mysql',
             function ($query, $queryString, $queryParameters) use ($dbConnection) 
             {
@@ -148,7 +192,7 @@ class App
      */
     public function getDataTable(string $table) : mixed
     {
-        return $this->dbBuilder()->table($table);
+        return $this->queryBuilder()->table($table);
     }
 
     /**
@@ -183,8 +227,11 @@ class App
      */
     public function getList() : mixed
     {
-        $list =  new CRUDListing();
-        return $list->getListing();
+        $page = $this->page;
+        $aot = $this->aot;
+        $params = $_REQUEST;
+        $handle = new handler\MainHandler($page);
+        return $handle->getList($page, $aot, $params);
     }
 }
 

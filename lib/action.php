@@ -1,34 +1,27 @@
 <?php 
 require_once(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app/brain.php');
-require_once(LIB_DIR . 'CRUD.php');
+require_once(LIB_DIR . 'handler/main.php');
 
-use \Learning\CRUDListing;
+use \Learning\handler\MainHandler;
 
-$actionCRUD = new CRUDListing();
+$page = $_REQUEST['page'];
 
-if ($_POST['action'] == 'create') {
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    
-    $result = $actionCRUD->insertListing($firstname, $lastname);
-    $list = $app->getList();
+$action = new MainHandler($page);
+
+if ($_POST['aot'] == 'create') {
+    $result = $action->create($_POST['page'], $_POST['aot'], $_POST);
+    $list = $action->getList();
     echo json_encode(['message' => $result, 'list' => $list]);
 
-} elseif ($_POST['action'] == 'update') {
-    $id = $_POST['id'];
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-
-    $result = $actionCRUD->updateListing($id, $firstname, $lastname);
-    $list = $app->getList();
-    echo json_encode(['message' => $result, 'list' => $list]);
-} elseif ($_POST['action'] == 'delete') {
-    $id = $_POST['id'];
-
-    $result = $actionCRUD->deleteListing($id);
-    $list = $app->getList();
+} elseif ($_POST['aot'] == 'update') {
+    $result = $action->update($_POST['page'], $_POST['aot'], $_POST);
+    $list = $action->getList();
     echo json_encode(['message' => $result, 'list' => $list]);
 
+} elseif ($_POST['aot'] == 'delete') {
+    $result = $action->delete($_POST['page'], $_POST['aot'], $_POST);
+    $list = $action->getList();
+    echo json_encode(['message' => $result, 'list' => $list]);
 }
 
 ?>
