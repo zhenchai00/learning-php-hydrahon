@@ -14,7 +14,6 @@ $(document).ready(function() {
     // Load content dynamically to div 
     $(window).on('hashchange', function() {
         var hash = location.hash.substr(1);
-        $('#content').load('form/' + hash + '.php');
+        $('#content').load('form/' + hash + '/' + page + '_' + aot + '.php?page=' + page + '&aot=' + aot);
     });
 });
-

@@ -74,9 +74,19 @@ class DepartmentHandler
      */
     public function insertListing(array $params) : string
     {
+        $html = "<script>
+                    var hash = location.hash.substr(1);
+                    $(document).ready(function() {
+                        document.getElementById(\"retryCreate\").onclick = function () {
+                            console.log('REtry Create Clicked');
+                            $('#content').load('form/' + hash + '/' + page + '_' + aot + '.php?page=' + page + '&aot=' + aot);
+                        };
+                    });
+                </script>";
+        
         if ($params['departmentName'] == '' && $params['id'] == '') {
-            return '<h3>Please insert employee id and department name!</h3><br>
-            <a href=\'index.php?page=department&aot=create#create\'>Retry</a><br>
+            return $html . '<h3>Please insert employee id and department name!</h3><br>
+            <a id=\'retryCreate\' href=\'index.php?page=department&aot=create#create\'>Retry</a><br>
             <a href=\'index.php?page=department&aot=list#list\'><strong>HOME</strong></a>';
         }
 
@@ -90,8 +100,8 @@ class DepartmentHandler
 
         $this->app->writeLog('Insert Data to Department Table ', $this->app::INFO);
 
-        return '<h3>' . $params['departmentName'] . ' successful added!</h3><br>
-        <a href=\'index.php?page=department&aot=create#create\'>Create Another Employee</a><br>
+        return $html . '<h3>' . $params['departmentName'] . ' successful added!</h3><br>
+        <a id=\'retryCreate\' href=\'index.php?page=department&aot=create#create\'>Create Another Employee</a><br>
         <a href=\'index.php?page=department&aot=list#list\'><strong>HOME</strong></a>';
     }
 
@@ -103,19 +113,29 @@ class DepartmentHandler
      */
     public function updateListing(array $params) : string
     {
+        $html = "<script>
+                    var hash = location.hash.substr(1);
+                    $(document).ready(function() {
+                        document.getElementById(\"retryUpdate\").onclick = function () {
+                            console.log('REtry Update Clicked');
+                            $('#content').load('form/' + hash + '/' + page + '_' + aot + '.php?page=' + page + '&aot=' + aot);
+                        };
+                    });
+                </script>";
+
         if ($params['id'] == '' && $params['departmentName'] == '') {
-            return '<h3>Please insert employee id and employee\'s department name !</h3><br>
-            <a href=\'index.php?page=department&aot=update#update\'>Retry</a><br>
+            return $html . '<h3>Please insert employee id and employee\'s department name !</h3><br>
+            <a id=\'retryUpdate\' href=\'index.php?page=department&aot=update#update\'>Retry</a><br>
             <a href=\'index.php?page=department&aot=list#list\'><strong>HOME</strong></a>';
 
         } elseif ($params['id'] == '' && isset($param['departmentName'])) {
-            return '<h3>Please insert employee id!</h3><br>
-            <a href=\'index.php?page=department&aot=update#update\'>Retry</a><br>
+            return $html . '<h3>Please insert employee id!</h3><br>
+            <a id=\'retryUpdate\' href=\'index.php?page=department&aot=update#update\'>Retry</a><br>
             <a href=\'index.php?page=department&aot=list#list\'><strong>HOME</strong></a>';
 
         } elseif (isset($params['id']) && $params['departmentName'] == '') {
-            return '<h3>Please insert employee\'s department!</h3><br>
-            <a href=\'index.php?page=department&aot=update#update\'>Retry</a><br>
+            return $html . '<h3>Please insert employee\'s department!</h3><br>
+            <a id=\'retryUpdate\' href=\'index.php?page=department&aot=update#update\'>Retry</a><br>
             <a href=\'index.php?page=department&aot=list#list\'><strong>HOME</strong></a>';
 
         } elseif (isset($params['id']) && isset($params['departmentName'])) {
@@ -127,8 +147,8 @@ class DepartmentHandler
 
             $this->app->writeLog('Update Employee\'s Department by Employee\'s ID [' . $params['id'] . ']', $this->app::INFO);
 
-            return '<h3> Successful Update  Employee\'s Department by Employee\'s ID ' . $params['id'] . '</h3><br>
-            <a href=\'index.php?page=department&aot=update#update\'>Update Another Employee</a><br>
+            return $html . '<h3> Successful Update  Employee\'s Department by Employee\'s ID ' . $params['id'] . '</h3><br>
+            <a id=\'retryUpdate\' href=\'index.php?page=department&aot=update#update\'>Update Another Employee</a><br>
             <a href=\'iindex.php?page=department&aot=list#list\'><strong>HOME</strong></a>';
         }
     }
@@ -141,9 +161,19 @@ class DepartmentHandler
      */
     public function deleteListing(array $params) : string
     {
+        $html = "<script>
+                    var hash = location.hash.substr(1);
+                    $(document).ready(function() {
+                        document.getElementById(\"retryDelete\").onclick = function () {
+                            console.log('REtry Delete Clicked');
+                            $('#content').load('form/' + hash + '/' + page + '_' + aot + '.php?page=' + page + '&aot=' + aot);
+                        };
+                    });
+                </script>";
+
         if ("" == $params['id']) {
-            return '<h3>Please insert data on text box</h3><br>
-            <a href=\'index.php?page=employee&aot=delete#delete\'>Retry</a><br>
+            return $html . '<h3>Please insert data on text box</h3><br>
+            <a id=\'retryDelete\' href=\'index.php?page=employee&aot=delete#delete\'>Retry</a><br>
             <a href=\'index.php?page=department&aot=list#list\'><strong>HOME</strong></a>';
         }
         
@@ -152,8 +182,8 @@ class DepartmentHandler
 
         $this->app->writeLog('Deleted Employee ID [' . $params['id'] . ']', $this->app::INFO);
         
-        return '<h3>Employee ID [' . $params['id'] . '] Successful Removed</h3><br>
-        <a href=\'index.php?page=employee&aot=delete#delete\'>Delete Another Employee</a><br> 
+        return $html . '<h3>Employee ID [' . $params['id'] . '] Successful Removed</h3><br>
+        <a id=\'retryDelete\' href=\'index.php?page=employee&aot=delete#delete\'>Delete Another Employee</a><br> 
         <a href=\'index.php?page=department&aot=list#list\'><strong>HOME</strong></a>';
     }
 }
