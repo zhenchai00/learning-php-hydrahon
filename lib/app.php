@@ -59,6 +59,26 @@ class App
     }
 
     /**
+     * This method is to get lib folder path
+     *
+     * @return string
+     */
+    public function getLibPath() : string
+    {
+        return LIB_DIR;
+    }
+
+    /**
+     * THis method is to get app folder path
+     *
+     * @return string
+     */
+    public function getAppPath() : string
+    {
+        return APP_DIR;
+    }
+
+    /**
      * This getInstance() is singleton pattern to use declare instance of object
      *
      * @return object
