@@ -1,3 +1,3 @@
 *.log
 /vendor
-/lib/uploads
+/lib/uploadfile/uploads
