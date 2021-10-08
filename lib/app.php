@@ -9,11 +9,9 @@ if (! defined("LIB_DIR")) {
 }
 
 require_once(dirname(LIB_DIR) . DIRECTORY_SEPARATOR . 'vendor/autoload.php');
-require_once(LIB_DIR . 'CRUD.php');
 require_once(LIB_DIR . 'handler/main.php');
 
 use Learning\Db;
-use Learning\CRUDListing;
 use ClanCats\Hydrahon\{Builder, BaseQuery};
 use ClanCats\Hydrahon\Query\{Sql, Expression};
 use ClanCats\Hydrahon\Query\Sql\{Select, Exists, Func};
