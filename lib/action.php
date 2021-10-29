@@ -1,6 +1,6 @@
 <?php 
 require_once(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'app/brain.php');
-require_once(LIB_DIR . 'handler/main.php');
+require_once('handler/main.php');
 
 use \Learning\handler\MainHandler;
 
