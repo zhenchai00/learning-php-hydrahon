@@ -174,7 +174,7 @@ class App
      */
     protected function queryBuilder() : mixed
     {
-        $dbConnection = new Db ('mysql', 'localhost', 'root', '', 'learning');
+        $dbConnection = new Db ('mysql', 'localhost', 'root', 'asdf1234', 'learning');
 
         $build = new Builder (
             'mysql',
