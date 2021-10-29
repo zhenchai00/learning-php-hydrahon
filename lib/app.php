@@ -42,8 +42,11 @@ class App
 
     protected function __construct()
     {
-        $this->page = $_REQUEST['page'];
-        $this->aot = $_REQUEST['aot'];
+        /**
+         * Do remove request error checking
+         */
+        $this->page = empty($_REQUEST['page']) ? '' : $_REQUEST['page'];
+        $this->aot = empty($_REQUEST['aot']) ? '' : $_REQUEST['aot'] ;
     }
 
     protected function __clone()
