@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html id="top-of-site" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="resources/css/style.css">
 
     <!-- JS -->
+    <script src="https://kit.fontawesome.com/0a72f56f5c.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="resources/bootstrap5.0.2/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="resources/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="main.js"></script>
@@ -68,6 +69,11 @@
         var page = '<?php echo $_GET["page"];?>';
         var aot = '<?php echo $_GET["aot"]; ?>'
     </script>
+    <footer>
+        <a id="to-top" class="top-of-site-link" href="#">
+            <i class="fas fa-angle-up"></i>
+        </a>
+    </footer>
 
 </body>
 
