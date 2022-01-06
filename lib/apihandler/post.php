@@ -3,7 +3,6 @@
 namespace Learning\apihandler;
 
 use Learning\App;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class Post
 {
