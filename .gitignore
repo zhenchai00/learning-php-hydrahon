@@ -1,2 +1,5 @@
 *.log
 /vendor
+/lib/uploadfile/uploads
+/lib/test.php
+composer.lock

@@ -67,17 +67,27 @@
         </div>
     </nav>
     <div class="container" id="content"></div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-xs-12">
+            <h3>Weather Forecast</h3>
+        </div>
+        <div class="col-lg-6 col-md-6 col-xs-12">
+            <form id="table-forecast-selection" class="form-inline pull-right">
+
+            </form>
+        </div>
+    </div>
     
-    <script type="text/javascript">
-        var page = '<?php echo $_GET["page"];?>';
-        var aot = '<?php echo $_GET["aot"]; ?>'
-    </script>
     <footer>
         <a id="to-top" class="top-of-site-link" href="#">
             <i class="fas fa-angle-up"></i>
         </a>
     </footer>
 
+    <script type="text/javascript">
+        var page = '<?php echo $_GET["page"];?>';
+        var aot = '<?php echo $_GET["aot"]; ?>'
+    </script>
 </body>
 
 </html>

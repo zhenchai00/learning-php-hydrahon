@@ -9,11 +9,9 @@ if (! defined("LIB_DIR")) {
 }
 
 require_once(dirname(LIB_DIR) . DIRECTORY_SEPARATOR . 'vendor/autoload.php');
-require_once(LIB_DIR . 'CRUD.php');
 require_once(LIB_DIR . 'handler/main.php');
 
 use Learning\Db;
-use Learning\CRUDListing;
 use ClanCats\Hydrahon\{Builder, BaseQuery};
 use ClanCats\Hydrahon\Query\{Sql, Expression};
 use ClanCats\Hydrahon\Query\Sql\{Select, Exists, Func};
@@ -44,8 +42,11 @@ class App
 
     protected function __construct()
     {
-        $this->page = $_REQUEST['page'];
-        $this->aot = $_REQUEST['aot'];
+        /**
+         * Do remove request error checking
+         */
+        $this->page = empty($_REQUEST['page']) ? '' : $_REQUEST['page'];
+        $this->aot = empty($_REQUEST['aot']) ? '' : $_REQUEST['aot'] ;
     }
 
     protected function __clone()
@@ -56,6 +57,26 @@ class App
     public function __wakeup() 
     {
         throw new \Exception("Cannot unserialize singleton", 1);
+    }
+
+    /**
+     * This method is to get lib folder path
+     *
+     * @return string
+     */
+    public function getLibPath() : string
+    {
+        return LIB_DIR;
+    }
+
+    /**
+     * THis method is to get app folder path
+     *
+     * @return string
+     */
+    public function getAppPath() : string
+    {
+        return APP_DIR;
     }
 
     /**
@@ -77,10 +98,10 @@ class App
      *
      * @return mixed
      */
-    public function initSystemDB() : mixed
+    /* public function initSystemDB() : mixed
     {
         try {
-            $this->dbHandle = new Db('mysql', 'localhost', 'root', '', 'learning');
+            $this->dbHandle = new Db('mysql', 'localhost', 'root', 'asdf1234', 'learning');
             if (null == $this->dbHandle) {
                 throw new \Exception("mysql://root@localhost/learning error connection", 1);            
             }
@@ -89,17 +110,17 @@ class App
             throw new \Exception("Error connecting to database mysql://root@localhost/learning" . __FILE__ . __METHOD__ . __LINE__, 1);
         }
         return true;
-    }
+    } */
 
     /**
      * This method is to get database handler where have connected to database
      *
      * @return void
      */
-    public function getDBHandle() : object | string
+    /* public function getDBHandle() : object | string
     {
         return $this->dbHandle;
-    }
+    } */
 
     /**
      * This method is to set the system timezone 
@@ -156,7 +177,7 @@ class App
      */
     protected function queryBuilder() : mixed
     {
-        $dbConnection = new Db ('mysql', 'localhost', 'root', '', 'learning');
+        $dbConnection = new Db ('mysql', 'localhost', 'root', 'asdf1234', 'learning');
 
         $build = new Builder (
             'mysql',
@@ -221,7 +242,7 @@ class App
     }
 
     /**
-     * This is to get listing and show at brain.php 
+     * This is to get listing and show at form listing  
      *
      * @return mixed
      */

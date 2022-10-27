@@ -10,6 +10,16 @@ if (!location.hash) {
     location.hash = '#list'
 }
 
+// to top button 
+$(window).scroll(function() {
+    var height = $(window).scrollTop();
+    if (height > 100) {
+        $('#to-top').fadeIn();
+    } else {
+        $('#to-top').fadeOut();
+    }
+});
+
 $(document).ready(function() {
     // Load content dynamically to div 
     $(window).on('hashchange', function() {
